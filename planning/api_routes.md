@@ -1,17 +1,17 @@
 ### Users
-* id, username, name, email, password
+* id SERIAL PRIMARY KEY NOT NULL, username VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL
 
 ### Resources
-* id, url, title, description, category_id, user_id, created_at
+* id SERIAL PRIMARY KEY NOT NULL, url VARCHAR(255), title VARCHAR(255) NOT NULL, description TEXT NOT NULL, category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE, user_id INTEGER REFERENCES users(id) ON DELETE CASCADE, created_at TIMESTAMP
 
 ### categories
-* id, category_name
+* id SERIAL PRIMARY KEY NOT NULL, category_name VARCHAR(255)
 
 ### comments
-* id, description, user_id, resource_id
+* id SERIAL PRIMARY KEY NOT NULL, description TEXT NOT NULL, user_id INTEGER REFERENCES users(id) ON DELETE CASCADE, resource_id INTEGER REFERENCES resources(id) ON DELETE CASCADE
 
 ### likes
-* id, resource_id, user_id
+* id SERIAL PRIMARY KEY, resource_id INTEGER REFERENCES resources(id) ON DELETE CASCADE, user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 
 ### rates
-* id, resource_id, user_id
+* id SERIAL PRIMARY KEY, resource_id INTEGER REFERENCES resources(id) ON DELETE CASCADE, user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
