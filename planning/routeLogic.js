@@ -1,7 +1,7 @@
 // Post calls
 app.get("/", (req, res) => {
   const userID = req.session.user_id;
-  const user = users[userID]; // modify to go into SQL database 
+  const user = users[userID]; // modify to go into SQL database
   if (user) {
     res.redirect("/feeds");
   }
