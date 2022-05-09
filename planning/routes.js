@@ -53,7 +53,6 @@ app.post("/login", (req, res) => {
     .catch(e => res.send(e));
 });
 
-//post call that checks if email is already registered during registration.. generates encrypted passwords.. error messages if user already exists
 
 app.get("/register", (req, res) => {
   const userId = req.session.userId;
@@ -79,14 +78,17 @@ app.post("/register", (req, res) => {
   getUserByEmail(email)
     .then(user => {
       if (user) {
-        // res.redirect('/feeds');
-        const templateVars = { error: "Email already exists, please provide valid input"};
-        res.render("/register", templateVars);
-        return;
+        res.redirect('/feeds');
+        // const templateVars = { error: "Email already exists, please provide valid input"};
+        // res.render("/register", templateVars);
+        // return;
       }
-      // call function to insert info into db
-      req.session.userId = user.id;
-      res.redirect("/feeds");
+      addUser(username, password, email)
+        .then(user => {
+          req.session.userId = user.id;
+          res.redirect("/feeds");
+        })
+        .catch(e => res.send(e));
     })
     .catch(e => res.send(e));
 
@@ -110,9 +112,9 @@ app.get("/feeds", (req, res) => {
       if (!user) {
         res.redirect("/");
       }
-
       // function to get all resources from db
       // assign values to templateVars
+      const templateVars = getAllResources(limit);
       res.render("feeds", templateVars);
     })
     .catch(e => res.send(e));
@@ -143,6 +145,11 @@ app.post("/resource-builder", (req, res) => {
   let userId = req.session.userId;
 
   // call function to insert category and return categoryid
+  createNewCategory(categories)
+    .then(category => {
+      const categoryId = category.id;
+    })
+    .catch(e => res.send(e));
 
   createNewResource(url, title, description, categoryId, userId)
     .then(resource => {
@@ -163,6 +170,7 @@ app.get("/my-resources", (req, res) => {
       }
       // call function to get resources by this user
       // pass that value as templateVars
+      const templateVars = getResourcesByUserId(userId, limit);
       res.render("my-resources", templateVars);
     })
     .catch(e => res.send(e));
@@ -184,6 +192,7 @@ app.get("/profile", (req, res) => {
         res.redirect("/");
       }
       // get username info from db and pass as templateVars
+      const templateVars = getUserById(userId);
       res.render("profile", templateVars);
     })
     .catch(e => res.send(e));

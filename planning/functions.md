@@ -122,7 +122,80 @@ exports.createNewResource = createNewResource;
 ```
 
 ```js
+const createNewCategory = function(categories) {
+  let values = [categories];
+  let queryString = `INSERT INTO categories (name) VALUES ($1) RETURNING *;`;
+  return pool
+    .query(queryString, values)
+    .then(result => {
+      console.log(result.rows);
+      return result.rows;
+    })
+    .catch(err => console.log(err.message));
+}
+```
+
+```js
 const createNewCategories = function (categories) {
   
+}
+```
+
+```js
+const addUser = function (username, email, password) {
+  const values = [username, email, password];
+  const queryString = `INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *;`;
+
+  return pool
+    .query(queryString, values)
+    .then(result => {
+      console.log(result.rows);
+      return result.rows;
+    })
+    .catch(err => console.log(err.message));
+}
+exports.addUser = addUser;
+```
+
+```js
+const getAllResources = function (limit = 10) {
+  const values = [limit];
+  const queryString = `SELECT resources.*, categories.*
+  FROM resources
+  JOIN categories ON resources.category_id = categories.id
+  GROUP BY resources.id, categories.id
+  ORDER BY resources.created_at
+  LIMIT $1;`;
+
+  return pool
+    .query(queryString, values)
+    .then(result => {
+      console.log(result);
+      return result.rows;
+    })
+    .catch(err => console.log(err.message))
+exports.getAllResources = getAllResources;
+}
+```
+
+```js
+const getResourcesByUserId = function (userId, limit = 10) {
+  const values = [userId, limit];
+  const queryString = `SELECT resources.*, categories.*
+  FROM resources
+  JOIN categories ON resources.category_id = categories.id
+  WHERE resources.user_id = $1
+  GROUP BY resources.id, categories.id
+  ORDER BY resources.created_at
+  LIMIT $2;`;
+
+  return pool
+    .query(queryString, values)
+    .then(result => {
+      console.log(result);
+      return result.rows;
+    })
+    .catch(err => console.log(err.message))
+exports.getAllResources = getAllResources;
 }
 ```
