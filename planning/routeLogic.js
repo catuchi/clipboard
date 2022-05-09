@@ -1,5 +1,11 @@
 // Post calls
 app.get("/", (req, res) => {
+  const userId = req.session.user_id;
+  if (!userId) {
+    res.send({message: "not logged in"});
+    return;
+  }
+
   const userID = req.session.user_id;
   const user = users[userID]; // modify to go into SQL database
   if (user) {
@@ -147,8 +153,11 @@ app.get("/profile", (req, res) => {
 
 app.post("/profile", (req, res) => {
   // get the cookie value associated to the user id (username)
-  let username = req.body.username;
+  // call function to get user by username(which is the cookie)
+  // let userID = id of the user returned
+  let newUsername = req.body.username;
   // create a query to update username
+  // set cookie value to be value of new username
   res.redirect('/profile')
   //popup that says "profile updated"
 });
