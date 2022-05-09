@@ -1,57 +1,40 @@
+const { redirect } = require("express/lib/response");
 const { database } = require("pg/lib/defaults");
 
 app.get("/", (req, res) => {
   const userId = req.session.userId;
   if (!userId) {
-    res.send({message: "not logged in"});
-    return;
+    res.render("homepage");
   }
 
   database.getUserById(userId)
     .then(user => {
       if (!user) {
-        res.send({error: "no user with that id"});
-        return;
+        res.render("homepage");
       }
 
-      // res.redirect("/feeds");
-      res.send({user: {username: user.username, email: user.email, id: userId}});
+      res.redirect("/feeds");
     })
     .catch(e => res.send(e));
 
-  // const userID = req.session.user_id;
-  // const user = users[userID]; // modify to go into SQL database
-  // if (user) {
-  //   res.redirect("/feeds");
-  // }
 });
 
 app.get("/login", (req, res) => {
   const userId = req.session.userId;
   if (!userId) {
-    res.send({message: "not logged in"});
-    return;
+    res.render('login');
   }
 
   database.getUserById(userId)
     .then(user => {
       if (!user) {
-        res.send({error: "no user with that id"});
-        return;
+        res.render('login');
       }
 
-      res.send({user: {username: user.username, email: user.email, id: userId}});
+      res.redirect("/feeds");
     })
     .catch(e => res.send(e));
-  // const userId = req.session.user_id;
-  // const user = users[userId]; // modify to go into SQL database
-  // if (user) {
-  //   return res.redirect("/feeds");
-  // }
-  const templateVars = {
-    user
-  };
-  res.render("login", templateVars);
+
 })
 
 app.post("/login", (req, res) => {
@@ -61,101 +44,52 @@ app.post("/login", (req, res) => {
   login(providedEmail, providedPw)
     .then(user => {
       if (!user) {
-        // res.statusCode = 403;
-        // res.send('<h2>403 Incorrect username/password. Please try again or resgister a new account!</h2>')
-        res.send({error: "error"});
-        return;
+        const templateVars = { error: "Incorrect username/password. Please try again or resgister a new account!"};
+        res.render("login", templateVars);
       }
-      // req.session.user_id = userID;
-      // res.redirect("/feeds")
-      req.session.userId = user.id;
-      res.send({user: {username: user.username, email: user.email, id: user.id}});
+      req.session.user_id = userID;
+      res.redirect("/feeds")
     })
     .catch(e => res.send(e));
-
-  res.redirect("/feeds");
-
-  // if (!emailCheck(req.body.email, users)) { // modify to go into SQL database
-  //   res.statusCode = 403;
-  //   res.send('<h2>403 This email is not registered. Please try again or resgister a new account!</h2>')
-  // } else {
-  //   let user = emailCheck(req.body.email, users); // modify to go into SQL database
-  //   let userPassword = user.password;
-  //   let userID = user.id;
-  //   const comparePassword = bcrypt.compareSync(req.body.password, user.password);
-  //   if (!comparePassword) {
-  //     res.statusCode = 403;
-  //     return res.send('<h2>403 You entered the wrong password, please try again.</h2>')
-  //   } else {
-  //     req.session.user_id = userID;
-  //     res.redirect("/feeds")
-  //   }
-  // }
 });
 
 //post call that checks if email is already registered during registration.. generates encrypted passwords.. error messages if user already exists
 
 app.get("/register", (req, res) => {
   const userId = req.session.userId;
-  // if (!userId) {
-  //   res.send({message: "not logged in"});
-  //   return;
-  // }
+  if (!userId) {
+    res.render('register');
+  }
 
   database.getUserById(userId)
     .then(user => {
       if (!user) {
-        //res.render('user-registration');
-        // return;
-        res.send({error: "no user with that id"});
-        return null;
+        res.render('register');
       }
-      // res.redirect("/feeds");
-      res.send({user: {username: user.username, email: user.email, id: userId}});
-    })
-    .catch(e => res.send(e));
 
-  // const userId = req.session.user_id;
-  // const user = users[userId]; // modify to go into SQL database
-  // if (user) {
-  //   return res.redirect("/feeds");
-  // }
-  // const templateVars = {
-  //   user
-  // };
-  // res.render('user-registration');
+      res.redirect("/feeds");
+    })
+
 })
 
 app.post("/register", (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
   let username = req.body.username;
-  registrationAuthentication(email, password, username)
+  getUserByEmail(email)
     .then(user => {
-      if (!user) {
+      if (user) {
         // res.redirect('/feeds');
-        res.send({error: 'error'});
+        const templateVars = { error: "Email already exists, please provide valid input"};
+        res.render("/register", templateVars);
         return;
       }
-      //res.statusCode = 400;
-      //res.send('<h2>400 Email or Password already exists. Please try again.</h2>')
+      // call function to insert info into db
       req.session.userId = user.id;
-      res.send({user: {username: user.username, email: user.email, id: user.id}});
+      res.redirect("/feeds");
     })
     .catch(e => res.send(e));
 
-  // if (email && password && username) {
-  //   if (!emailCheck(email, users)) {
-  //     req.session.user_id = username;
-  //     res.redirect('/feeds')
-  //   } else {
-  //     res.statusCode = 400;
-  //     res.send('<h2>400 Email already exists. Please try again.</h2>')
-  //   }
-  // } else {
-  //   res.statusCode = 400;
-  //   res.send('<h2>400 Please try again.</h2>')
-  // }
 });
 
 
@@ -168,69 +102,37 @@ app.post("/logout", (req, res) => {
 app.get("/feeds", (req, res) => {
   const userId = req.session.userId;
   if (!userId) {
-    // res.status(401);
-    // res.redirect("/");
-    res.send({message: "not logged in"});
-    return;
+    res.redirect("/");
   }
 
   database.getUserById(userId)
     .then(user => {
       if (!user) {
-        // res.status(401);
-        // res.redirect("/");
-        res.send({error: "no user with that id"});
-        return;
+        res.redirect("/");
       }
 
-      // res.render("feeds", templateVars);
-      res.send({user: {username: user.username, email: user.email, id: userId}});
+      // function to get all resources from db
+      // assign values to templateVars
+      res.render("feeds", templateVars);
     })
     .catch(e => res.send(e));
-
-
-  // const userId = req.session.user_id; // modify to go into SQL database
-  // const user = users[userId];
-
-  // if (!user) {
-  //   res.status(401);
-  //   res.redirect("/");
-  // }
-  // res.render("feeds", templateVars);
 });
 
 app.get("/resource-builder", (req, res) => {
   const userId = req.session.userId;
   if (!userId) {
-    // return res.redirect("/");
-    res.send({message: "not logged in"});
-    return;
+    res.redirect("/");
   }
 
   database.getUserById(userId)
     .then(user => {
       if (!user) {
-        // res.status(401);
-        // res.redirect("/");
-        res.send({error: "no user with that id"});
-        return;
+        res.redirect("/");
       }
 
-      // res.render("resource-builder" /*, templateVars */);
-      res.send({user: {username: user.username, email: user.email, id: userId}});
+      res.render("resource-builder");
     })
     .catch(e => res.send(e));
-
-
-  // const userId = req.session.user_id;
-  // const user = users[userId]; // modify to go into SQL database
-  // if (!user) {
-  //   return res.redirect("/");
-  // }
-  // const templateVars = {
-  //   user
-  // };
-  // res.render("resource-builder" /*, templateVars */);
 });
 
 app.post("/resource-builder", (req, res) => {
@@ -238,58 +140,32 @@ app.post("/resource-builder", (req, res) => {
   let title = req.body.title;
   let description = req.body.description;
   let categories = req.body.categories
+  let userId = req.session.userId;
 
-  createNewResource(url, title, description)
+  // call function to insert category and return categoryid
+
+  createNewResource(url, title, description, categoryId, userId)
     .then(resource => {
-
+      res.redirect("/feeds");
     })
-  // receive value for title, URL, description.
-  // create a query that inserts values for title url description into table resources
-  //receive value for categories
-  //create a query that inserts values for categories into categories table
-  //update feeds table with new resource post
-  // redirect to feeds
-  res.redirect("/feeds");
 });
 
 app.get("/my-resources", (req, res) => {
   const userId = req.session.userId;
   if (!userId) {
-    // res.status(401);
-    // res.redirect("/");
-    res.send({message: "not logged in"});
-    return;
+    res.redirect("/");
   }
 
   database.getUserById(userId)
     .then(user => {
       if (!user) {
-        // res.status(401);
-        // res.redirect("/");
-        res.send({error: "no user with that id"});
-        return;
+        res.redirect("/");
       }
-
-      // res.render("my-resources", templateVars);
-      res.send({user: {username: user.username, email: user.email, id: userId}});
+      // call function to get resources by this user
+      // pass that value as templateVars
+      res.render("my-resources", templateVars);
     })
     .catch(e => res.send(e));
-
-
-  // const userId = req.session.user_id; //modify to go into SQL database
-  // const user = users[userId];
-
-  // if (!user) {
-  //   res.status(401);
-  //   res.redirect("/");
-  // }
-  // const userDB = urlsForUser(userId, urlDatabase);
-  // const templateVars = {
-  //   user,
-  //   urls: userDB
-  // };
-
-  // res.render("my-resources", templateVars);
 });
 
 // app.post("/my-resources", (req, res) => {
@@ -299,44 +175,25 @@ app.get("/my-resources", (req, res) => {
 app.get("/profile", (req, res) => {
   const userId = req.session.userId;
   if (!userId) {
-    // return res.redirect("/");
-    res.send({message: "not logged in"});
-    return;
+    return res.redirect("/");
   }
 
   database.getUserById(userId)
     .then(user => {
       if (!user) {
-        // res.status(401);
-        // res.redirect("/");
-        res.send({error: "no user with that id"});
-        return;
+        res.redirect("/");
       }
-
-      // res.render("profile", templateVars);
-      res.send({user: {username: user.username, email: user.email, id: userId}});
+      // get username info from db and pass as templateVars
+      res.render("profile", templateVars);
     })
     .catch(e => res.send(e));
 
-
-  // get the cookie value associated to the user id (username)
-  // const userId = req.session.user_id;
-  // const user = users[userId]; // modify to go into SQL database
-  // if (!user) {
-  //   return res.redirect("/");
-  // }
-  // const templateVars = {
-  //   user
-  // };
-  // res.render('profile', templateVars);
 });
 
 app.post("/profile", (req, res) => {
   const userId = req.session.userId;
   if (!userId) {
-    // return res.redirect("/");
-    res.send({message: "not logged in"});
-    return;
+    res.redirect("/");
   }
 
   let newUsername = req.body.username;
@@ -344,29 +201,15 @@ app.post("/profile", (req, res) => {
   database.getUserById(userId)
     .then(user => {
       if (!user) {
-        // res.status(401);
-        // res.redirect("/");
-        res.send({error: "no user with that id"});
-        return;
+        res.redirect("/");
       }
       if (user.id === userId) {
         updateUsername(newUsername, userId)
+        const templateVars = { message: "Profile updated"};
+        res.render("/profile", templateVars);
       }
-
-      // res.redirect('/profile')
-      // popup that says "profile updated"
-      res.send({user: {username: user.username, email: user.email, id: userId}});
     })
     .catch(e => res.send(e));
 
-
-  // get the cookie value associated to the user id (username)
-  // call function to get user by username(which is the cookie)
-  // let userID = id of the user returned
-  // let newUsername = req.body.username;
-  // create a query to update username
-  // set cookie value to be value of new username
-  // res.redirect('/profile')
-  // popup that says "profile updated"
 });
 
