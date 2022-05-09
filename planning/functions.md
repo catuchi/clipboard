@@ -101,7 +101,7 @@ exports.registrationAuthentication = registrationAuthentication;
 ```
 
 ```js
-const createNewResource = function(url, title, description) {
+const createNewResource = function(url, title, description, userID) {
   if (!URL) {
     let values = [title, description];
     let queryString = `INSERT INTO users (title, description) VALUES ($1, $2) RETURNING *;`;
