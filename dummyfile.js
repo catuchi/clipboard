@@ -9,7 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/main.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="/styles/main.css" type="text/css" /> -->
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
@@ -26,54 +26,55 @@
         </a>
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li>
-            <a href="#" class="nav-link px-2 text-white">InfoWall</a>
+            <a href="#" class="nav-link px-2 text-secondary">Home</a>
           </li>
           <li>
-            <a href="#" class="nav-link px-2 text-secondary">About</a>
+            <a href="#" class="nav-link px-2 text-white">Features</a>
           </li>
           <li>
-            <a href="#" class="nav-link px-2 text-secondary">Blog</a>
+            <a href="#" class="nav-link px-2 text-white">Pricing</a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 text-white">FAQs</a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 text-white">About</a>
           </li>
         </ul>
-        <ul class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">My Resources</button>
-          <button type="button" class="btn btn-outline-warning">My Profile</button>
-        </ul>
-        <ul class="container-fluid">
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search for resources!" aria-label="Search">
-            <button class="btn btn-outline-warning" type="submit">Search</button>
-          </form>
-        </ul>
+        <div class="text-end">
+          <button type="button" class="btn btn-outline-light me-2">Login</button>
+          <button type="button" class="btn btn-warning">Login</button>
+        </div>
       </div>
     </div>
   </header>
-  <div>
-    <div class="container">
 
-    </div>
-    <section>
-      <article class=“post”>
-        <header class=“post-header”>
-          <div>
-            <h2 id="username">Username</h2>
+  <section>
+      <article class="post">
+        <header class="post-header">
+          <div id ="username">
+            <h2 id='username'></h2>
           </div>
-            <h2 id=“title”>Title of URL</h2>
+            <h2 id="title"></h2>
         </header>
         <p>
         Post Description
         </p>
       <footer>
-        <div id=“user-interaction”>
-          <button class=“button” class=“btn btn-primary”>Comment</button>
-          <button class=“button” class=“btn btn-light”>Like</button>
-          <button class=“button” class=“btn btn-danger”>Rate</button>
+        <p><small></small></p>
+        <div id="user-interaction">
+          <button class="button" class="btn btn-primary">Comment</button>
+          <button class="button" class="btn btn-light">Like</button>
+          <button class="button" class="btn btn-danger">Rate</button>
         </div>
       </footer>
       </article>
-      </section>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+
+      </section>
+
+
 </body>
+
 </html>
