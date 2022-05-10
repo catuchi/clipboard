@@ -3,8 +3,8 @@ const router  = express.Router();
 
 module.exports = (database) => {
   router.get("/login", (req, res) => {
-    // console.log("hello");
-    // return res.render("index");
+    console.log("hello");
+    return res.render("login");
     const userId = req.session.userId;
     if (!userId) {
       res.render('login');
