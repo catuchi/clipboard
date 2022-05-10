@@ -9,7 +9,7 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (database) => {
-  router.get("/home", (req, res) => {
+  router.get("/homepage", (req, res) => {
     const userId = req.session.userId;
     if (!userId) {
       res.render("homepage");
