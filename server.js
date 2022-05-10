@@ -37,17 +37,39 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
-const resourcesRoutes = require("./routes/resources");
-const feedsRoutes = require("./routes/feeds");
-const loginRoutes = require("./routes/login_registration");
+const test = require("./routes/test");
+const homepage = require("./routes/homepage");
+const getLogin = require("./routes/getLogin");
+const postLogin = require("./routes/postLogin");
+const getFeeds = require("./routes/getFeeds");
+const getMyResources = require("./routes/getMyResources");
+const getProfile = require("./routes/getProfile");
+const getRegister = require("./routes/getRegister");
+const getResourceBuilder = require("./routes/getResourceBuilder");
+const postLogout = require("./routes/postLogout");
+// const postMyResources = require("./routes/postMyResources");
+const postProfile = require("./routes/postProfile");
+const postRegister = require("./routes/postRegister");
+const postResourceBuilder = require("./routes/postResourceBuilder");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
+app.use("/homepage", homepage(db));
+app.use("/", getLogin(db));
+app.use("/", postLogin(db));
+app.use("/", getFeeds(db));
+app.use("/", getMyResources(db));
+app.use("/", getProfile(db));
+app.use("/", getRegister(db));
+app.use("/", getResourceBuilder(db));
+app.use("/", postLogout(db));
+app.use("/", postRegister(db));
+app.use("/", postProfile(db));
+app.use("/", postResourceBuilder(db));
+// app.use("/", postMyResources(db));
+app.use("/test", test(db));
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
-app.use("/api/resources", resourcesRoutes(db));
-app.use("/api/resources", feedsRoutes(db));
-app.use("/api/resources", loginRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
 // Home page
