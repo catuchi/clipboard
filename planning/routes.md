@@ -21,3 +21,22 @@
 * POST /my-resources (for any button interaction)
 * GET /profile
 * POST /profile (to update/edit user profile)
+
+### route group 1
+* GET / (get homepage)
+* (Post /login)
+* GET /login
+* Post /register
+* GET /register
+* POST /logout
+
+### route group 2
+* GEt /feeds
+* GET /my-resources
+* POST /my-resources (for any button interaction)
+
+### route group 3
+* GET /resource-builder
+* POST /resource-builder (redirect to /feeds)
+* GET /profile
+* POST /profile (to update/edit user profile)
