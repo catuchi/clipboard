@@ -8,7 +8,7 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 
-
+// PG database client/connection setup
 
 
 
@@ -192,6 +192,7 @@ app.post("/login", (req,res) => {
     res.status(401);
     res.render("urls_error", templateVars);
   } else {
+    // eslint-disable-next-line camelcase
     req.session.user_id = user.id;
     res.redirect("/urls");
   }
