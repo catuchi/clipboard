@@ -26,6 +26,80 @@ html {
     padding-right: 5em;
     padding-left: 5em;
   }
+  .tweet-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .single-tweet {
+    display: flex;
+    flex-direction: column;
+    border: 4px solid black;
+    margin-top: 5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
+  .single-tweet:hover {
+    box-shadow: 10px 5px 5px grey;
+    transition: 100ms ease-in-out;
+  }
+
+  .interact i:hover {
+    color: gold;
+  }
+
+  .tweet-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px
+  }
+
+  .handle {
+    display: flex;
+    align-items: center;
+  }
+
+  .tweet-name {
+    display: flex;
+    align-items: center;
+  }
+
+  .avi-plus-name {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .avi-plus-name img {
+    padding-right: 20px;
+  }
+
+  .interact i + i {
+    padding-left: 10px;
+  }
+
+  i {
+    font-size: 0.73em;
+    color: #4056A1;
+  }
+
+  .tweet-content {
+    border-bottom: 4px solid black;
+  }
+
+  p {
+    text-align: center;
+    text-justify: inter-word;
+  }
+
+  .error-message {
+    display: none;
+  }
+
   // .loginForm {
     // display: flex;
     // justify-content: center;
