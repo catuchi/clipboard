@@ -4,13 +4,13 @@ const router  = express.Router();
 module.exports = (database) => {
   const login =  function(email, password) {
     return database.getUserByEmail(email)
-    .then(user => {
-      if (bcrypt.compareSync(password, user.password)) {
-        return user;
-      }
-      return null;
-    });
-  }
+      .then(user => {
+        if (bcrypt.compareSync(password, user.password)) {
+          return user;
+        }
+        return null;
+      });
+  };
 
   router.post("/login", (req, res) => {
     const providedEmail = req.body.email;
@@ -23,10 +23,10 @@ module.exports = (database) => {
           res.render("login", templateVars);
         }
         req.session.user_id = userID;
-        res.redirect("/feeds")
+        res.redirect("/feeds");
       })
       .catch(e => res.send(e));
   });
 
   return router;
-}
+};

@@ -37,7 +37,7 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
-const test = require("./routes/test");
+// const test = require("./routes/test");
 const homepage = require("./routes/homepage");
 const getLogin = require("./routes/getLogin");
 const postLogin = require("./routes/postLogin");
@@ -67,10 +67,37 @@ app.use("/", postRegister(db));
 app.use("/", postProfile(db));
 app.use("/", postResourceBuilder(db));
 // app.use("/", postMyResources(db));
-app.use("/test", test(db));
+// app.use("/test", test(db));
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 // Note: mount other resources here, using the same pattern above
+
+
+
+
+//redirect index to homepage
+app.get("/", (req, res) => {
+  res.redirect("/homepage");
+});
+
+//route register submit button to feed, if no user_id refresh register
+app.get("/register", (req, res) => {
+  if (req.session.user_id) {
+    res.redirect("/feeds");
+  } else {
+    res.redirect("/register");
+  }
+});
+
+//route login submit button to feed, if no user_id refresh login
+app.get("/login", (req, res) => {
+  if (req.session.user_id) {
+    res.redirect("/feeds");
+  } else {
+    res.redirect("/login");
+  }
+});
+
 
 // Home page
 // Warning: avoid creating more routes in this file!
