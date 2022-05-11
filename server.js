@@ -90,13 +90,13 @@ app.get("/register", (req, res) => {
 });
 
 //route login submit button to feed, if no user_id refresh login
-app.get("/login", (req, res) => {
-  if (req.session.user_id) {
-    res.redirect("/feeds");
-  } else {
-    res.redirect("/login");
-  }
-});
+// app.get("/login", (req, res) => {
+//   if (req.session.user_id) {
+//     res.redirect("/feeds");
+//   } else {
+//     res.redirect("/login");
+//   }
+// });
 
 
 // Home page
