@@ -3,6 +3,7 @@ const router  = express.Router();
 
 module.exports = (database) => {
   router.get("/resource-builder", (req, res) => {
+    return res.render("resourceBuilder")
     const userId = req.session.userId;
     if (!userId) {
       res.redirect("/");

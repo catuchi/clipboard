@@ -3,6 +3,7 @@ const router  = express.Router();
 
 module.exports = (database) => {
   router.post("/profile", (req, res) => {
+    return res.render("profilePage");
     const userId = req.session.userId;
     if (!userId) {
       res.redirect("/");
