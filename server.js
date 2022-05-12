@@ -67,7 +67,7 @@ app.use("/", postRegister(db));
 app.use("/", postProfile(db));
 app.use("/", postResourceBuilder(db));
 // app.use("/", postMyResources(db));
-// app.use("/test", test(db));
+//app.use("/test", test(db));
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 // Note: mount other resources here, using the same pattern above
