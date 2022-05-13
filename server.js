@@ -51,6 +51,7 @@ const postLogout = require("./routes/postLogout");
 const postProfile = require("./routes/postProfile");
 const postRegister = require("./routes/postRegister");
 const postResourceBuilder = require("./routes/postResourceBuilder");
+const getProflie = require("./routes/getProflie");
 
 //additions
 const feedsRouter = require("./routes/feeds");
@@ -59,6 +60,7 @@ app.use("/feeds", feedsRouter(db));
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/homepage", homepage(db));
+app.use("/", getProflie(db));
 app.use("/", getLogin(db));
 app.use("/", postLogin(db));
 app.use("/", getFeeds(db));
