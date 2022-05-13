@@ -49,18 +49,22 @@
   </header>
   <main>
     <div class="container">
-      <form action="/action_page.php">
+      <!-- ?????????????????????? -->
+      <form action="/feeds">
         <label for="Title">Title</label>
         <input type="text" id="Title" name="Title" placeholder="Title">
 
         <label for="URL">URL</label>
         <input type="text" id="URL" name="URL" placeholder="URL">
 
-        <label for="country">Categories</label>
-        <select id="country" name="country">
-          <option value="australia">Australia</option>
-          <option value="canada">Canada</option>
-          <option value="usa">USA</option>
+        <label for="categories">Categories</label>
+        <select id="categories" name="categories">
+          <option value="Video">Video</option>
+          <option value="URL">URL</option>
+          <option value="Tutorial">Tutorial</option>
+          <option value="DIY">DIY</option>
+          <option value="Other">Other</option>
+
         </select>
 
         <label for="Description">Description</label>

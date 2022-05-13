@@ -6,17 +6,12 @@ module.exports = (database) => {
     let url = req.body.url;
     let title = req.body.title;
     let description = req.body.description;
-    let categories = req.body.categories
-    let userId = req.session.userId;
+    let categories = req.body.categories;
 
     // call function to insert category and return categoryid
-    database.createNewCategory(categories)
+    database.query('insertQuery!!!!!!!!!')
       .then(category => {
-        const categoryId = category.id;
-        // return categoryId;
-        database.createNewResource(url, title, description, categoryId, userId)
-        // .then(resource => {
-          res.redirect("/feeds");
+        res.redirect("/feeds");
         // })
       })
       .catch(e => res.send(e));
@@ -24,4 +19,4 @@ module.exports = (database) => {
   });
 
   return router;
-}
+};

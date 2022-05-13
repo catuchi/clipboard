@@ -3,7 +3,7 @@ const router  = express.Router();
 
 module.exports = (database) => {
   router.get("/feeds", (req, res) => {
-    return res.render ("feeds");
+    return res.render("feeds");
     const userId = req.session.userId;
     if (!userId) {
       res.redirect("/");
@@ -17,10 +17,11 @@ module.exports = (database) => {
         // function to get all resources from db
         // assign values to templateVars
         const templateVars = database.getAllResources(limit);
+        console.log(templateVars, "Hello there")
         res.render("feeds", templateVars);
       })
       .catch(e => res.send(e));
   });
 
   return router;
-}
+};
