@@ -6,7 +6,7 @@ VALUES ('rdu0', 'Ralf Du Plantier', 'rdu0@fotki.com', 'password'),
 INSERT INTO categories (name) VALUES ('tutorial'), ('js'), ('diy');
 
 INSERT INTO resources (id, url, title, description, category_id, user_id, created_at)
-VALUES (1, 'http://howstuffworks.com/cursus/vestibulum/proin/eu.html', 'Evolution', 'In congue. Etiam justo. Etiam pretium iaculis justo.', 1, 1, '2018-02-12T08:00:00.000Z'),
+VALUES (1, 'http://howstuffworks.com', 'Evolution', 'In congue. Etiam justo. Etiam pretium iaculis justo.', 1, 1, '2018-02-12T08:00:00.000Z'),
 (2, 'https://wisc.edu/fusce.jpg', 'Slow Southern Steel', 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 2, 2, '2018-02-12T08:00:00.000Z'),
 (3, 'http://apache.org/sed.xml', 'Harlem Nights', 'In congue. Etiam justo. Etiam pretium iaculis justo.', 3, 3, '2018-02-12T08:00:00.000Z');
 
