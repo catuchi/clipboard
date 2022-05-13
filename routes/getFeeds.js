@@ -17,7 +17,7 @@ module.exports = (database) => {
         // function to get all resources from db
         // assign values to templateVars
         const templateVars = database.getAllResources(limit);
-        console.log(templateVars, "Hello there")
+        console.log(templateVars, "Hello there");
         res.render("feeds", templateVars);
       })
       .catch(e => res.send(e));

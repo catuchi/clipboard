@@ -7,5 +7,3 @@ CREATE TABLE resources (
   category VARCHAR(255) NOT NULL,
   liked BOOLEAN NOT NULL DEFAULT false
 );
-
-
